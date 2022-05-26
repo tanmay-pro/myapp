@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"myapp/app/router"
 	"myapp/config"
 	"net/http"
 	"time"
@@ -13,13 +14,12 @@ import (
 func main() {
 	godotenv.Load("./docker/app/.env")
 	appConf := config.AppConfig()
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", Greet)
+	appRouter := router.New()
 	address := fmt.Sprintf(":%d", appConf.Server.Port)
 	log.Printf("Starting server %s\n", address)
 	s := &http.Server{
 		Addr:         address,
-		Handler:      mux,
+		Handler:      appRouter,
 		ReadTimeout:  30 * time.Second,
 		WriteTimeout: 30 * time.Second,
 		IdleTimeout:  120 * time.Second,
@@ -27,7 +27,4 @@ func main() {
 	if err := s.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatal("Server startup failed")
 	}
-}
-func Greet(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World!")
 }
