@@ -10,7 +10,8 @@ services:
       - "8080:8080"
     depends_on:
       - db
-  
+    command: ["/usr/local/bin/myapp/wait-for-mysql.sh", "db", "/usr/local/bin/myapp/init.sh"]
+
   db:
     build: ./docker/mariadb/
     environment:
@@ -21,3 +22,5 @@ services:
     ports:
       - 3306:3306
     restart: always
+  
+  
