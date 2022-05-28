@@ -8,3 +8,10 @@ func (app *App) HandleIndex(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	w.Write([]byte("Hello World!"))
 }
+
+func (app *App) HandleIndex2(w http.ResponseWriter, _ *http.Request) {
+	w.Header().Set("Content-Length", "12")
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Header().Set("X-Content-Type-Options", "nosniff")
+	w.Write([]byte("The second hello world for basic get operation!"))
+}
